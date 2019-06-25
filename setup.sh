@@ -21,7 +21,7 @@ docker build -t pshtt .
 echo "build complete"
 
 echo "creating scanning script"
-cat > pshtt-develop/start.sh << 'SCRIPT'
+cat > ./pshtt-develop/start.sh << 'SCRIPT'
 #!/bin/bash
 HOSTNAME="$1"
 docker run pshtt "$HOSTNAME" -j --output="$HOSTNAME".json
@@ -35,7 +35,7 @@ echo "---------------"
 echo "---------------"
 SCRIPT
 
-chmod 0755 start.sh
+chmod 0755 ./pshtt-develop/start.sh
 
 echo "to use the script do the following"
 echo "./start.sh <hostname>"
