@@ -14,6 +14,10 @@ if [[ ! -d "$PSHTT_TEMP" ]]; then
     mkdir "$PSHTT_TEMP"
 fi
 
+if [[ -d /tmp/pshtt_results.tar ]]; then
+    rm -rf /tmp/pshtt_results.tar
+fi
+
 echo "Starting PSHTT download.."
 # Download PSHTT and unzip it
 if [[ ! -f "/home/$USER/develop.zip" ]]; then
@@ -43,9 +47,9 @@ fi
 
 while read input; do
     echo "Scanning $input"
-    docker run pshtt "$input" -j --output="$input".json &> /dev/null
-    GET_RESULTS=$(sudo find /var/lib/docker/overlay2/ -iname "$input".json)
-    sudo cp "$GET_RESULTS" "$PSHTT_TEMP"/
+    docker run pshtt "$input" -j --output=$input.json &> /dev/null
+    GET_RESULTS=$(sudo find /var/lib/docker/overlay2/ -iname $input.json)
+    sudo mv "$GET_RESULTS" "$PSHTT_TEMP"/$input.json
     sudo chmod 0755 "$PSHTT_TEMP"/"$input".json
 done < /home/$USER/hosts.txt
 
